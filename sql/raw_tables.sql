@@ -1,0 +1,91 @@
+-- =====================================================
+-- WORKSHEET: SaaS Analytics – Raw Tables
+-- PURPOSE:
+--   Define raw, source-level tables loaded from CSVs
+-- NOTES:
+--   - No transformations here
+--   - No joins or aggregations
+--   - Data is assumed to be loaded externally
+-- =====================================================
+
+USE SCHEMA SAAS_ANALYTICS.RAW;
+
+-- -------------------------
+-- ACCOUNTS
+-- -------------------------
+CREATE OR REPLACE TABLE ACCOUNTS (
+    ACCOUNT_ID STRING,
+    ACCOUNT_NAME STRING,
+    INDUSTRY STRING,
+    COUNTRY STRING,
+    SIGNUP_DATE DATE,
+    REFERRAL_SOURCE STRING,
+    PLAN_TIER STRING,
+    SEATS INTEGER,
+    IS_TRIAL BOOLEAN,
+    CHURN_FLAG BOOLEAN
+);
+
+-- -------------------------
+-- SUBSCRIPTIONS
+-- -------------------------
+CREATE OR REPLACE TABLE SUBSCRIPTIONS (
+    SUBSCRIPTION_ID STRING,
+    ACCOUNT_ID STRING,
+    START_DATE DATE,
+    END_DATE DATE,
+    PLAN_TIER STRING,
+    SEATS INTEGER,
+    MRR_AMOUNT NUMBER(10,2),
+    ARR_AMOUNT NUMBER(10,2),
+    IS_TRIAL BOOLEAN,
+    UPGRADE_FLAG BOOLEAN,
+    DOWNGRADE_FLAG BOOLEAN,
+    CHURN_FLAG BOOLEAN,
+    BILLING_FREQUENCY STRING,
+    AUTO_RENEW_FLAG BOOLEAN
+);
+
+-- -------------------------
+-- FEATURE USAGE
+-- -------------------------
+CREATE OR REPLACE TABLE FEATURE_USAGE (
+    USAGE_ID STRING,
+    SUBSCRIPTION_ID STRING,
+    USAGE_DATE DATE,
+    FEATURE_NAME STRING,
+    USAGE_COUNT INTEGER,
+    USAGE_DURATION_SECS INTEGER,
+    ERROR_COUNT INTEGER,
+    IS_BETA_FEATURE BOOLEAN
+);
+
+-- -------------------------
+-- SUPPORT TICKETS
+-- -------------------------
+CREATE OR REPLACE TABLE SUPPORT_TICKETS (
+    TICKET_ID STRING,
+    ACCOUNT_ID STRING,
+    SUBMITTED_AT TIMESTAMP,
+    CLOSED_AT TIMESTAMP,
+    RESOLUTION_TIME_HOURS FLOAT,
+    PRIORITY STRING,
+    FIRST_RESPONSE_TIME_MINUTES INTEGER,
+    SATISFACTION_SCORE INTEGER,
+    ESCALATION_FLAG BOOLEAN
+);
+
+-- -------------------------
+-- CHURN EVENTS
+-- -------------------------
+CREATE OR REPLACE TABLE CHURN_EVENTS (
+    CHURN_EVENT_ID STRING,
+    ACCOUNT_ID STRING,
+    CHURN_DATE DATE,
+    REASON_CODE STRING,
+    REFUND_AMOUNT_USD NUMBER(10,2),
+    PRECEDING_UPGRADE_FLAG BOOLEAN,
+    PRECEDING_DOWNGRADE_FLAG BOOLEAN,
+    IS_REACTIVATION BOOLEAN,
+    FEEDBACK_TEXT STRING
+);
